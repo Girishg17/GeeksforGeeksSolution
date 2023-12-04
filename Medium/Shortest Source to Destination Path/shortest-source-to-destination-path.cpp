@@ -9,46 +9,36 @@ using namespace std;
 
 class Solution {
   public:
-   int shortestDistance(int N, int M, vector<vector<int>>& arr, int X, int Y) {
-    queue<pair<int,int>> q;
-    int count = 0;
-    
-    if (arr[0][0] == 0) return -1;
-    
-    q.push({0, 0});
-    int dir[][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-    
-    vector<vector<int>> vis(N, vector<int>(M, 0));
-    vis[0][0] = 1;
-    
-    while (!q.empty()) {
-        int levelSize = q.size();  // Number of nodes at the current level
-        
-        for (int k = 0; k < levelSize; k++) {
-            int row = q.front().first;
-            int col = q.front().second;
-            q.pop();
-            
-            if (row == X && col == Y) return count;
-            
-            for (int i = 0; i < 4; i++) {
-                int newrow = row + dir[i][0];
-                int newcol = col + dir[i][1];
-                
-                if (newrow >= 0 && newcol >= 0 && newrow < N && newcol < M &&
-                    vis[newrow][newcol] == 0 && arr[newrow][newcol] == 1) {
-                    vis[newrow][newcol] = 1;
-                    q.push({newrow, newcol});
+    int shortestDistance(int N, int M, vector<vector<int>> A, int X, int Y) {
+        if(A[0][0]==0 || A[X][Y]==0)return -1;
+        // code here
+        int steps=0;
+        queue<pair<int,int>>pq;
+        vector<vector<int>>vis(N,vector<int>(M,0));
+        int arr[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+        pq.push({0,0});
+        vis[0][0]=1;
+        while(!pq.empty()){
+            int size=pq.size();
+            while(size--){
+                int row=pq.front().first;
+                int col=pq.front().second;
+                pq.pop();
+                if(row==X && col==Y)return steps;
+                for(auto &it:arr){
+                    int newrow=row+it[0];
+                    int newcol=col+it[1];
+                    if(newrow>=0 && newcol>=0 && newrow<N && newcol<M &&A[newrow][newcol]==1 && vis[newrow][newcol]==0 )
+                    {
+                        pq.push({newrow,newcol});
+                        vis[newrow][newcol]=1;
+                    }
                 }
             }
+            steps++;
         }
-        
-        count++;  // Increment count after processing the whole level
+        return -1;
     }
-    
-    return -1;
-}
-
 };
 
 //{ Driver Code Starts.
