@@ -9,25 +9,27 @@ using namespace std;
 
 class Solution {
   public:
-    int getMinDiff(int arr[], int n, int k) {
-        
-         sort(arr,arr+n);
-        int ans=arr[n-1]-arr[0];
-        int smallest=arr[0]+k;
-        int largets=arr[n-1]-k;
-        int mi,ma;
-        for(int i=0;i<n;i++){
-           
-            mi=min(smallest,arr[i+1]-k);
-            ma=max(largets,arr[i]+k);
-            // ma=max(largets,arr[i]+k);
-            if(mi<0)continue;
-         
-            ans=min(ans,ma-mi);
-        
-        }
-         return ans;
+     int getMinDiff(int arr[], int n, int k) {
         // code here
+        sort(arr, arr+n);
+        
+        int maxi = arr[n-1]; //store maximum element
+        int mini = arr[0]; //store minimum element
+        int ans = arr[n-1] - arr[0]; //initial ans will be (maxi - mini)
+        
+        //going through all the element and 
+        //updating possible maximum and minimum hight after performing operation
+        for(int i=1; i<n; i++) {
+            if(arr[i]-k < 0) 
+                continue;
+                
+            maxi = max(arr[i-1]+k, arr[n-1]-k);
+            mini = min(arr[0]+k, arr[i]-k);
+            
+            ans = min(ans, maxi-mini);
+        }
+        
+        return ans;
     }
 };
 
