@@ -11,17 +11,17 @@ public:
 	// largest elements
 	int print2largest(int arr[], int n) {
 	    // code here
-	    int maxi1=0;
+	    int maxi=0;
 	    for(int i=0;i<n;i++){
-	        maxi1=max(maxi1,arr[i]);
+	        maxi=max(maxi,arr[i]);
 	    }
-	    int secon=-1;
+	    int maxii=-1;
 	    for(int i=0;i<n;i++){
-	        if(arr[i]!=maxi1){
-	            secon=max(arr[i],secon);
+	        if(arr[i]>maxii && arr[i]!=maxi){
+	            maxii=arr[i];
 	        }
 	    }
-	    return secon;
+	    return maxii;
 	}
 };
 
