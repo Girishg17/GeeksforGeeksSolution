@@ -10,32 +10,38 @@ using namespace std;
 
 class Solution{
 public:
-    static bool mycmp(vector<int>&a , vector<int>&b)
-    {
-        return a[1]<b[1];
-    }
-    vector<int> maxMeetings(int N,vector<int> &S,vector<int> &F){
-        
-        vector<vector<int>>arr;
-        for(int i=0;i<N ;i++){
-            arr.push_back({S[i],F[i],i+1});
-         
+    vector<int> maxMeetings(int n,vector<int> &S,vector<int> &F){
+        vector<pair<int,pair<int,int>>> v;
+        for(int i=0;i<n;i++){
+            v.push_back({S[i],{F[i],i}});
         }
-        sort(arr.begin(),arr.end(),mycmp);
-        
-        int lastend=arr[0][1];
-        vector<int>ans;
-        ans.push_back(arr[0][2]);
-        for(int i=1;i<N ;i++){
-            if(arr[i][0]>lastend){
-                ans.push_back(arr[i][2]);
-                lastend=arr[i][1];
+        sort(v.begin(),v.end());
+        vector<int> ans;
+        ans.push_back(0);
+        int cnt=0;
+        for(int i=1;i<n;i++)
+        {   
+            int j=ans.back();
+            if(v[i].first>v[j].second.first){
+                ans.push_back(i);
+                cnt++;
+            }
+            else{
+                if(v[i].second.first<v[j].second.first){
+                    ans[cnt]=i;
+                }
+                else if(v[i].second.first==v[j].second.first){
+                     if(v[i].second.second<v[j].second.second){
+                       ans[cnt]=i;
+                     }
+                }
             }
         }
-        
-    
-    sort(ans.begin(),ans.end());
-    return ans;
+        for(int i=0;i<ans.size();i++){
+            ans[i]=v[ans[i]].second.second+1;
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
     }
 };
 
