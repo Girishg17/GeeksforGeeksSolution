@@ -7,18 +7,22 @@ class Solution {
   public:
     bool canPair(vector<int> nums, int k) {
         // Code here.
-        
-        map<int,int>mp;
-        for(int i=0;i<nums.size();i++){
-            int mod=nums[i]%k;
-            mp[mod]++;
+        if(nums.size()%2!=0)return false;
+        unordered_map<int,int>mp;
+        for(auto it:nums){
+            mp[it%k]++;
+        }
+        int i=1;
+        int j=k-1;
+        while(i<j){
+            if(mp[i]!=mp[j])return false;
+            i++;
+            j--;
         }
         if(mp[0]%2!=0)return false;
-        for(int i=1;i<k;i++){
-            if(mp[i]!=mp[k-i])return false;
-        }
-        
         return true;
+        
+        
     }
 };
 
